@@ -29,7 +29,7 @@
 ![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.37.png?raw=true)
 
 3. 重绘类型为：保持X数量不变，根据月份调整
-![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator Screen Shot - iPhone X - 2018-07-27 at 15.30.17?raw=true)
+![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-27%20at%2015.30.17.png)
 
 
 
