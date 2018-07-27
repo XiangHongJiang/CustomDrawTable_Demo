@@ -28,11 +28,17 @@ typedef NS_ENUM(NSInteger, LineType) {
 // 固定类型
 typedef NS_ENUM(NSInteger, Value_Type) {
     Value_Type_Xcount, // 横轴数量固定（5个），根据最大值增加单位长度
-    Value_Type_YUnitValue    // Y轴单位长度固定（40），增加横轴
+    Value_Type_YUnitValue,    // Y轴单位长度固定（40），增加横轴
 };
 
 /** 数据表格视图*/
 @interface XHCarInWayDataTableView : UIView
+
+
+/** valueType*/
+@property (nonatomic, assign, readonly) Value_Type valueType;
+/** isKeepXcount*/
+@property (nonatomic, assign, readonly) BOOL isKeepXcount;
 
 //初始化画布
 +(instancetype)initWithFrame:(CGRect)frame;
@@ -60,5 +66,8 @@ typedef NS_ENUM(NSInteger, Value_Type) {
 
 /** 赋值数据: dateStr：yyyy-MM-dd  valueType: 固定单位长度 还是固定数量*/
 - (void)configData:(id)data withDate:(NSString *)dateStr andValueType:(Value_Type)valueType;
+
+/** 赋值数据: dateStr：yyyy-MM-dd  valueType: 固定单位长度 还是固定数量 keepXcount:固定X个数，还是根据时间变*/
+- (void)configData:(id)data withDate:(NSString *)dateStr andValueType:(Value_Type)valueType andKeepXcount:(BOOL)keepXcount;
 
 @end

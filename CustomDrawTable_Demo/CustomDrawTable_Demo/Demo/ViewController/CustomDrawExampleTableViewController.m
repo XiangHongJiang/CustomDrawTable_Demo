@@ -29,7 +29,7 @@
     
     self.tableView.tableFooterView = [self footer];
 
-    self.dataArray = @[@"重绘类型为：固定横轴数量，增加单位长度",@"测试模型",@"重绘类型为：固定单位长度，增加横轴数量"];
+    self.dataArray = @[@"重绘类型为：固定横轴数量，增加单位长度",@"测试模型",@"重绘类型为：固定单位长度，增加横轴数量",@"重绘类型为：整月"];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
 
     [self transData];
@@ -83,6 +83,8 @@
 
             break;
         case 3:
+            [self.footerView configData:nil withDate:[XHTools changeDateToString:[NSDate date] withFormatStr:@"yyyy-MM-dd"] andValueType:self.footerView.valueType andKeepXcount:YES];
+
             break;
         default:
             break;

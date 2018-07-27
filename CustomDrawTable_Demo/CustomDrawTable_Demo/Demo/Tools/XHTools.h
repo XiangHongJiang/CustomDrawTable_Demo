@@ -26,4 +26,6 @@
 
 + (NSString *)changeDateToString:(NSDate *)date withFormatStr:(NSString *)format;
 
++ (NSInteger)getMounthCountWithYearStr:(NSString *)yearStr andMounth:(NSString *)mounthStr;
+
 @end

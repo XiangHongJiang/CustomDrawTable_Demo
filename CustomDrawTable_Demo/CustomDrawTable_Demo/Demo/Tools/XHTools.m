@@ -44,4 +44,36 @@
     }
     return @"";
 }
++ (NSInteger)getMounthCountWithYearStr:(NSString *)yearStr andMounth:(NSString *)mounthStr{
+    
+    NSInteger count = 0;
+    
+    NSInteger yearValue = yearStr.integerValue;
+    BOOL isRunYear = NO;
+    
+    if ((yearValue % 400 == 0) || (yearValue % 4 == 0 && yearValue % 100)) {
+        isRunYear = YES;
+    }
+    
+    switch (mounthStr.integerValue) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            count = 31;
+            break;
+        case 2:
+            count = isRunYear? 29:28;
+            break;
+            
+        default:
+            count = 30;
+            break;
+    }
+    
+    return count;
+}
 @end

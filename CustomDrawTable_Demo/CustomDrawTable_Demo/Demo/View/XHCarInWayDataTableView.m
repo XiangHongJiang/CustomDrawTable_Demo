@@ -16,12 +16,17 @@
 @interface XHCarInWayDataTableView ()
 {
     NSString * _currentYear;
+    NSString * _currentMounth;
+    NSString * _currentDay;
+    NSInteger _currentMounthCount;
 }
 
 @property (strong, nonatomic) NSArray *xTitleArray;//X轴
 @property (strong, nonatomic) NSArray *yValueArray;//Y轴
 @property (assign, nonatomic) CGFloat yMax;//Y的最大值
 @property (assign, nonatomic) CGFloat yCount;//个数
+@property (assign, nonatomic) CGFloat xCount;//个数
+
 @property (assign, nonatomic) CGFloat defaultXSpace;//X间距 = 绘图宽度/个数
 @property (assign, nonatomic) CGFloat defaultYSpace;//Y间距 = 绘图高度/个数
 @property (nonatomic, assign) NSInteger yUinitValue;//Y轴单位长度
@@ -36,9 +41,14 @@
 @property (nonatomic, strong) UILabel * infoLabel;
 @property (nonatomic, strong) UIView * lineView;
 
+
+
 @end
 
 @implementation XHCarInWayDataTableView
+
+@synthesize valueType = _valueType;
+@synthesize isKeepXcount = _isKeepXcount;
 
 #pragma mark - lazyLoad
 - (NSMutableArray *)allPointArray {
@@ -295,7 +305,9 @@
     self.lineType = lineType;
     self.yUinitValue = Default_YUinitValue;//固定单位长度40
     self.yCount = Default_YCount;//固定5条
-    
+    self.xCount = _currentMounthCount;
+    _valueType = valueType;
+
     BOOL regular_XCount = (valueType==Value_Type_Xcount)? YES : NO;
     //固定X轴数量，增加Y轴的单位长度
     int count = [self isPureFloat:yMax / Default_YUinitValue] ? (yMax/Default_YUinitValue +1) :yMax/Default_YUinitValue;
@@ -311,8 +323,14 @@
         self.yCount = (count + 1) < Default_YCount ? Default_YCount: (count + 1);//需要绘制的X轴数量
     }
     
+    if (self.isKeepXcount) {
+        self.defaultXSpace = _currentMounthCount?(self.frame.size.width - MARGIN * 2 - Y_Title_Width)/(_currentMounthCount - 1) : (self.frame.size.width - MARGIN * 2 - Y_Title_Width);//X轴间距
+
+    }else {
+        self.defaultXSpace = x_names.count?(self.frame.size.width - MARGIN * 2 - Y_Title_Width)/(x_names.count - 1) : (self.frame.size.width - MARGIN * 2 - Y_Title_Width);//X轴间距
+
+    }
     
-    self.defaultXSpace = x_names.count?(self.frame.size.width - MARGIN * 2 - Y_Title_Width)/(x_names.count - 1) : (self.frame.size.width - MARGIN * 2 - Y_Title_Width);//X轴间距
     self.defaultYSpace = (self.frame.size.height - Bottom_Title_Height - Top_Title_Height)/ (self.yCount - 1);//Y轴间距
     
     //1.绘制坐标轴
@@ -325,6 +343,7 @@
     [self addSubview:self.pointContentView];
     
 }
+
 #pragma mark - 绘制相关
 -(void)drawLineChartViewWithX_Value_Names:(NSArray *)x_names TargetValues:(NSArray *)targetValues LineType:(LineType) lineType yMax:(CGFloat)yMax yMin:(CGFloat)yMin {
   
@@ -351,18 +370,38 @@
 
     //2.Y轴、X轴的坐标文字
     //X轴
-    for (int i=0; i<self.xTitleArray.count; i++) {
-        CGFloat X = MARGIN + Y_Title_Width + self.defaultXSpace * i;
-        if (i == 0 || (i == self.xTitleArray.count - 1)) {
-            UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(X - Y_Title_Width * 0.5, CGRectGetHeight(self.frame)-Bottom_Title_Height, Y_Title_Width, Bottom_Title_Height)];
+    if (self.isKeepXcount) {
+        
+        for (int i=0; i<_currentMounthCount; i++) {
             
-            textLabel.text = self.xTitleArray[i];
-            textLabel.font = [UIFont systemFontOfSize:10];
-            textLabel.textAlignment = NSTextAlignmentCenter;
-            textLabel.textColor = [UIColor t2];
-            [self addSubview:textLabel];
+            CGFloat X = MARGIN + Y_Title_Width + self.defaultXSpace * i;
+            
+            if (i == 0 || (i == _currentMounthCount - 1)) {
+                UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(X - Y_Title_Width * 0.5, CGRectGetHeight(self.frame)-Bottom_Title_Height, Y_Title_Width, Bottom_Title_Height)];
+                
+                textLabel.text = [NSString stringWithFormat:@"%@-%02d",_currentMounth,i+1];
+                textLabel.font = [UIFont systemFontOfSize:10];
+                textLabel.textAlignment = NSTextAlignmentCenter;
+                textLabel.textColor = [UIColor t2];
+                [self addSubview:textLabel];
+            }
         }
+    }else {
+            for (int i=0; i<self.xTitleArray.count; i++) {
+                CGFloat X = MARGIN + Y_Title_Width + self.defaultXSpace * i;
+                if (i == 0 || (i == self.xTitleArray.count - 1)) {
+                    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(X - Y_Title_Width * 0.5, CGRectGetHeight(self.frame)-Bottom_Title_Height, Y_Title_Width, Bottom_Title_Height)];
+        
+                    textLabel.text = self.xTitleArray[i];
+                    textLabel.font = [UIFont systemFontOfSize:10];
+                    textLabel.textAlignment = NSTextAlignmentCenter;
+                    textLabel.textColor = [UIColor t2];
+                    [self addSubview:textLabel];
+                }
+            }
     }
+
+   
     //Y轴
     for (int i=0; i<self.yCount; i++) {
         CGFloat Y = CGRectGetHeight(self.frame)-Bottom_Title_Height- self.defaultYSpace * i;
@@ -575,6 +614,12 @@
 }
 - (void)configData:(XHCarInwayDataDailyInfoModel *)data withDate:(NSString *)dateStr andValueType:(Value_Type)valueType {
     
+    [self configData:data withDate:dateStr andValueType:valueType andKeepXcount:NO];
+    
+}
+/** 赋值数据: dateStr：yyyy-MM-dd  valueType: 固定单位长度 还是固定数量 keepXcount:固定X个数，还是根据时间变*/
+- (void)configData:(XHCarInwayDataDailyInfoModel *)data withDate:(NSString *)dateStr andValueType:(Value_Type)valueType andKeepXcount:(BOOL)keepXcount {
+    
     NSDate *currentDate = [XHTools chageStringToDate:dateStr withFormatStr:@"yyyy-MM-dd"];
     NSString *currentDateStr = [XHTools changeDateToString:currentDate withFormatStr:@"yyyy-MM-dd"];
     
@@ -584,6 +629,11 @@
     NSString *currentDayStr = dateArray.lastObject;
     
     _currentYear = currentYearStr;
+    _currentDay = currentDayStr;
+    _currentMounth = currentMounthStr;
+    _currentMounthCount = [XHTools getMounthCountWithYearStr:currentYearStr andMounth:currentMounthStr];
+    
+    _isKeepXcount = keepXcount;
     
     NSMutableArray *xValueArray = [NSMutableArray new];//x轴
     NSMutableArray *yValueArray = [NSMutableArray new];//y轴
@@ -621,14 +671,13 @@
     //防止重绘
     [self removeAllSubviews];
     [self configSubViews];
-
+    
     //绘制
     [self drawLineChartViewWithX_Value_Names:xValueArray TargetValues:yValueArray LineType:LineType_Curve ValueType:valueType yMax:maxValue yMin:0];
     
     //重置位置
     [self showPointDataWithPointIndex:self.allPointArray.count - 1 andEnd:YES];
     [self insertSubview:self.lineView belowSubview:self.pointContentView];
-
 }
 - (void)removeAllSubviews {
     while (self.subviews.count) {
