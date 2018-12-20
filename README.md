@@ -21,15 +21,16 @@
 #### 使用说明
 
 1. 重绘类型为：固定横轴数量，增加单位长度
-![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.33.png?raw=true)
+<div align=center><img width="200" height="355" src="https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.33.png"/></div>
+
 2. 测试模型
-![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.35.png?raw=true)
+<div align=center><img width="200" height="355" src="https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.35.png?"/></div>
 
 3. 重绘类型为：固定单位长度，增加横轴数量
-![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.37.png?raw=true)
+<div align=center><img width="200" height="355" src="https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-19%20at%2016.29.37.png"/></div>
 
-3. 重绘类型为：保持X数量不变，根据月份调整
-![image](https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-27%20at%2015.30.17.png)
+4. 重绘类型为：保持X数量不变，根据月份调整
+<div align=center><img width="200" height="355" src="https://github.com/XiangHongJiang/CustomDrawTable_Demo/blob/master/CustomDrawTable_Demo/Pic/Simulator%20Screen%20Shot%20-%20iPhone%20X%20-%202018-07-27%20at%2015.30.17.png"/></div>
 
 
 
